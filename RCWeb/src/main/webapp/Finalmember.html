@@ -151,58 +151,79 @@ button:hover {
 <body>
 
 	<div class="container">
-		<!-- Sidebar 区域 -->
+		<!-- Sidebar 區域 -->
 		<div class="sidebar">
 			<h2>W2W 後台管理</h2>
 			<ul>
-				<li>總覽</li>
-				<li>用户管理</li>
-				<li>商品管理</li>
-				<li>訂單管理</li>
-				<li>内容管理</li>
-				<li>支付與服務管理</li>
-				<li>客服管理</li>
+				<li onclick="loadContent('overview')">總覽</li>
+				<li onclick="loadContent('user-management')">用户管理</li>
+				<li onclick="loadContent('product-management')">商品管理</li>
+				<li onclick="loadContent('order-management')">訂單管理</li>
+				<li onclick="loadContent('content-management')">内容管理</li>
+				<li onclick="loadContent('payment-service')">支付與服務管理</li>
+				<li onclick="loadContent('customer-service')">客服管理</li>
 			</ul>
 		</div>
 
-		<!-- 主体内容区域 -->
-		<div class="content">
-			<h1>CRM 會員查詢</h1>
-			<div class="search-box">
-				<input type="text" id="searchKey" placeholder="請輸入ID或account">
-				<button type="button" onclick="fetchData()">搜索</button>
-			</div>
-			<div class="crm-data" id="crmData">
-				<!-- 数据表格会在这里生成 -->
-				</div>
-			<div class="pagination" id="pagination"></div>
-    			<!-- 分页控件会在这里生成 -->
-			</div>
+		<!-- 主體區域 -->
+		<div class="content" id="contentArea">
+			<h1> CRM 後台管理系統</h1>
 		</div>
+	</div>
 	
-
-
 	<!-- 修改数据的表单 -->
-<div id="updateForm" style="display: none;">
-    <h2>修改用戶資料</h2>
-    <form id="updateMemberForm">
-        <input type="hidden" id="updateId">
-        <label for="updateAccount">帳號:</label>
-        <input type="text" id="updateAccount">
-        <label for="updatePasswd">密碼:</label>
-        <input type="text" id="updatePasswd">
-        <label for="updatePhone">電話:</label>
-        <input type="text" id="updatePhone">
-        <label for="updateAddr">地址:</label>
-        <input type="text" id="updateAddr">
-        <div class="form-buttons">
-            <button type="button" onclick="updateMember()">提交</button>
-            <button type="button" onclick="hideUpdateForm()">取消</button>
-        </div>
-    </form>
-</div>
+	<div id="updateForm" style="display: none;">
+	    <h2>修改用戶資料</h2>
+	    <form id="updateMemberForm">
+	        <input type="hidden" id="updateId">
+	        <label for="updateAccount">帳號:</label>
+	        <input type="text" id="updateAccount">
+	        <label for="updatePasswd">密碼:</label>
+	        <input type="text" id="updatePasswd">
+	        <label for="updatePhone">電話:</label>
+	        <input type="text" id="updatePhone">
+	        <label for="updateAddr">地址:</label>
+	        <input type="text" id="updateAddr">
+	        <div class="form-buttons">
+	            <button type="button" onclick="updateMember()">提交</button>
+	            <button type="button" onclick="hideUpdateForm()">取消</button>
+	        </div>
+	    </form>
+	</div>
 
 	<script>
+	// 处理内容加载
+	function loadContent(page) {
+	    const contentArea = document.getElementById('contentArea');
+	    if (page === 'overview') {
+	        contentArea.innerHTML = '<h1>總覽</h1><p>这里是总览页面的内容。</p>';
+	    } else if (page === 'user-management') {
+	        contentArea.innerHTML = `
+	            <h1>CRM 會員查詢</h1>
+	            <div class="search-box">
+	                <input type="text" id="searchKey" placeholder="請輸入關鍵字">
+	                <button type="button" onclick="fetchData()">搜索</button>
+	            </div>
+	            <div class="crm-data" id="crmData">
+	                <!-- 數據表格生成 -->
+	            </div>
+	            <div class="pagination" id="pagination"></div>
+	        `;
+	        // 初始化数据加载
+	        fetchData(1);
+	    } else if (page === 'product-management') {
+	        contentArea.innerHTML = '<h1>商品管理</h1><p>這裡是商品管理內容</p>';
+	    } else if (page === 'order-management') {
+	        contentArea.innerHTML = '<h1>訂單管理</h1><p>這裡是訂單管理內容</p>';
+	    } else if (page === 'content-management') {
+	        contentArea.innerHTML = '<h1>内容管理</h1><p>這裡內容管理內容</p>';
+	    } else if (page === 'payment-service') {
+	        contentArea.innerHTML = '<h1>支付與服務管理</h1><p>這裡支付與服務管理</p>';
+	    } else if (page === 'customer-service') {
+	        contentArea.innerHTML = '<h1>客服管理</h1><p>這裡是客服管理內容</p>';
+	    }
+	}
+
 	function fetchData(page = 1) {
 	    const searchKey = document.getElementById('searchKey').value;
 	    const url = `/RCWeb/finaltt?key=${encodeURIComponent(searchKey)}&page=${page}`;
@@ -253,7 +274,7 @@ button:hover {
 	            `;
 
 	            crmDataDiv.innerHTML = tableHtml;
-	            // 更新分页控件
+	            // 更新分頁控制
 	            updatePagination(data.totalPages, data.currentPage);
 	        })
 	        .catch(error => console.error('Error fetching data:', error));
@@ -283,9 +304,6 @@ button:hover {
 
 	    paginationDiv.innerHTML = paginationHtml;
 	}
-
-	// 初始化数据加载
-	fetchData(1);
 
 	function showUpdateForm(id, account, passwd, phone, addr) {
 	    document.getElementById('updateId').value = id;
@@ -324,8 +342,8 @@ button:hover {
 	    .then(response => {
 	        if (response.ok) {
 	            alert('資料修改成功');
-	            hideUpdateForm(); // 隐藏表单
-	            fetchData(); // 刷新数据
+	            hideUpdateForm(); // 隱藏表單
+	            fetchData(); // 刷新數據
 	        } else {
 	            alert('ERROR:修改失敗');
 	        }
@@ -352,15 +370,14 @@ button:hover {
 	    .then(response => {
 	        if (response.ok) {
 	            alert('資料刪除成功');
-	            fetchData(); // 刷新数据
+	            fetchData(); // 刷新數據
 	        } else {
 	            alert('ERROR:刪除失敗');
 	        }
 	    })
 	    .catch(error => console.error('Error deleting member:', error));
 	}
-
-    </script>
+	</script>
 
 </body>
 </html>
