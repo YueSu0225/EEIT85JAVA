@@ -18,6 +18,18 @@
 			<input type="checkbox" name="habbit" value="6" />打籃球<br />
 			
 			<input type="submit" value="Register" />
-		</form>
+		</form></hr>
+		
+		    <h1>歡迎, <span id="userName"></span>!</h1>
+    <p>信箱: <span id="userEmail"></span></p>
+    <script>
+        function getQueryParam(param) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        document.getElementById('userName').textContent = getQueryParam('name');
+        document.getElementById('userEmail').textContent = getQueryParam('email');
+    </script>
 	</body>
 </html>
