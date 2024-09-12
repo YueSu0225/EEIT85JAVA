@@ -205,8 +205,22 @@ button:hover {
 	                <button type="button" onclick="fetchData()">搜索</button>
 	            </div>
 	            <div class="crm-data" id="crmData">
-	                <!-- 數據表格生成 -->
-	            </div>
+	            <table id="tableHtml">
+	                <thead>
+	                    <tr>
+	                        <th>ID</th>
+	                        <th>帳號</th>
+	                        <th>密碼</th>
+	                        <th>電話</th>
+	                        <th>地址</th>
+	                        <th>修改/刪除</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="tableBody">
+	                    <!-- 數據行將會插入到這裡 -->
+	                </tbody>
+	            </table>
+	        </div>
 	            <div class="pagination" id="pagination"></div>
 	        `;
 	        // 初始化数据加载
@@ -229,57 +243,39 @@ button:hover {
 	    const url = `/RCWeb/finaltt?key=${encodeURIComponent(searchKey)}&page=${page}`;
 
 	    fetch(url)
-	        .then(response => {
-	            if (!response.ok) {
-	                throw new Error(`Network response was not ok. Status: ${response.status}`);
-	            }
-	            return response.json();
-	        })
-	        .then(data => {
-	            const crmDataDiv = document.getElementById('crmData');
-	            let tableHtml = `
-	                <table>
-	                    <thead>
-	                        <tr>
-	                            <th>ID</th>
-	                            <th>帳號</th>
-	                            <th>密碼</th>
-	                            <th>電話</th>
-	                            <th>地址</th>
-	                            <th>修改/刪除</th>
-	                        </tr>
-	                    </thead>
-	                    <tbody>
-	            `;
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 初始化表格的 tbody 部分
+            let tableBodyHtml = '';
 
-	            data.results.forEach(member => {
-	                tableHtml += `
-	                    <tr>
-	                        <td>${member.id}</td>
-	                        <td>${member.account}</td>
-	                        <td>${member.passwd}</td>
-	                        <td>${member.phone}</td>
-	                        <td>${member.addr}</td>
-	                        <td>
-	                            <button onclick="showUpdateForm(${member.id}, '${member.account}', '${member.passwd}', '${member.phone}', '${member.addr}')">修改</button>
-	                            <button onclick="confirmDelete(${member.id})">刪除</button>
-	                        </td>
-	                    </tr>
-	                `;
-	            });
+            // 添加數據行
+            data.results.forEach(member => {
+                tableBodyHtml += `
+                    <tr>
+                        <td>${member.id}</td>
+                        <td>${member.account}</td>
+                        <td>${member.passwd}</td>
+                        <td>${member.phone}</td>
+                        <td>${member.addr}</td>
+                        <td>
+                            <button onclick="showUpdateForm(${member.id}, '${member.account}', '${member.passwd}', '${member.phone}', '${member.addr}')">修改</button>
+                            <button onclick="confirmDelete(${member.id})">刪除</button>
+                        </td>
+                    </tr>
+                `;
+            });
 
-	            tableHtml += `
-	                    </tbody>
-	                </table>
-	            `;
-
-	            crmDataDiv.innerHTML = tableHtml;
-	            // 更新分頁控制
-	            updatePagination(data.totalPages, data.currentPage);
-	        })
-	        .catch(error => console.error('Error fetching data:', error));
-	}
-
+            document.getElementById('tableBody').innerHTML = tableBodyHtml;
+            // 更新分頁控制
+            updatePagination(data.totalPages, data.currentPage);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
 	function updatePagination(totalPages, currentPage) {
 	    const paginationDiv = document.getElementById('pagination');
 	    let paginationHtml = '';
