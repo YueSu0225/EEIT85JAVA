@@ -1,6 +1,7 @@
 package tw.rc.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.mindrot.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,40 @@ public class UserServiceImpl implements UserService{
 		return responseUser;
 	}
 
+	@Override
+	public User updateUser(User user) {
+		User userDB = userRepository.findById(user.getId()).orElse(null);
+		if (userDB != null) {
+			if (user.getAccount() != null) {
+				userDB.setAccount(user.getAccount());
+			} 
+			if (user.getName() != null) {
+				userDB.setName(user.getName());
+			}
+			if (user.getDetail() != null && user.getDetail().getNickname() != null) {
+				userDB.getDetail().setNickname(user.getDetail().getNickname());
+			}
+			
+			userRepository.save(userDB);
+			
+			return userDB;
+		}else {
+			System.out.println("not found");
+			return null;
+		}
+		
+	}
+
+	@Override
+	public void deleteUser(Long id) {
+		userRepository.deleteById(id);
+		
+//		User userDB = userRepository.findById(id).orElse(null);
+//		if(userDB != null) {
+//			userRepository.delete(userDB);
+//		}
+		
+	}
 	
 	
 }
