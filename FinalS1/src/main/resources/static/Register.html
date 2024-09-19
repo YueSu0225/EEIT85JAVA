@@ -107,6 +107,7 @@
 						<div class="form-group">
 							<input type="email" id="email" class="form-control" placeholder="請輸入信箱" required>
 							 <span id="errormesg" style="color: red;"></span>
+							 <span id="correctmesg" style="color: green;"></span>
 						</div>
 						<div class="form-group">
 						<input type="submit" value="檢查信箱" class="btn btn-dark">
@@ -122,15 +123,11 @@
 						<div class="form-group">
 							<input type="text" class="form-control" placeholder="姓名">
 						</div>
+						
 						<div class="form-group">
-							<label>性別：</label>
-							<div>
-								<label> <input type="radio" name="gender" value="男" checked>男</label>
-								<label> <input type="radio" name="gender" value="女">女</label>
-							</div>
-						</div>
-						<div class="form-group">
-                            <input type="text" class="form-control" placeholder="手機">
+                            <input type="text" class="form-control" id="phone" placeholder="請輸入手機號碼">
+                            <span id="phoneerrormesg" style="color: red;"></span>
+                            
                         </div>
 						<!-- 地址 - 縣市 -->
 						<div class="form-group">
@@ -149,6 +146,7 @@
 						<div class="form-group">
 							<input type="text" id="street" class="form-control"
 								placeholder="請輸入街道名門牌號">
+								<span id="streeterrormesg" style="color: red;"></span>
 						</div>
 
 						<div class="form-group">
@@ -275,6 +273,7 @@
 <script src="myjs/emailtype.js"></script>
 <script src="myjs/passwd.js"></script>
 <script src="myjs/register.js"></script>
+<script src="myjs/phone.js"></script>
 </body>
 
 </html>
