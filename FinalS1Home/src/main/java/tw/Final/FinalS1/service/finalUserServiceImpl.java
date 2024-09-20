@@ -83,15 +83,7 @@ public class finalUserServiceImpl implements finalUserService{
 	        return ResponseEntity.ok(response);
 	}
 
-	@Override
-	public ResponseEntity<Boolean> checkaccount(RegisterRequest request) {
-        String account = request.getAccount();
-        if (account == null || account.isEmpty()) {
-            return ResponseEntity.badRequest().body(false); // 或者返回錯誤信息
-        }
-        boolean exists = userRepository.existsByAccount(account);
-        return ResponseEntity.ok(exists);
-    }
+
 
 	@Override
 	public ResponseEntity<Map<String, Object>> loginUser(RegisterRequest request) {

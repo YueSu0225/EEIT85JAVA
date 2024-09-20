@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
+	passwordInput.addEventListener('input', function () {
+	       errorPasswordMsg.textContent = ''; // 當用戶輸入時清空錯誤訊息
+	   });
 
     function login() {
         let account = document.getElementById('loginaccount').value;
