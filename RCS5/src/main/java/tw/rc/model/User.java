@@ -1,10 +1,15 @@
 package tw.rc.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,6 +31,21 @@ public class User {
 	
 	@Column(name ="icon")
 	private byte[] icon;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "detail_id", referencedColumnName = "id")
+	@JsonManagedReference
+	private Detail detail;
+	
+	
+
+	public Detail getDetail() {
+		return detail;
+	}
+
+	public void setDetail(Detail detail) {
+		this.detail = detail;
+	}
 
 	public Long getId() {
 		return id;
