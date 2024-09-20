@@ -19,20 +19,20 @@ public class ControllerFinaltest {
 	private finalUserService finalUserService;
 	
 	
-	@PostMapping("/register")
+	@PostMapping("/register")//註冊按鍵
 	public ResponseEntity<Map<String, Object>> register(@RequestBody RegisterRequest request){
 		return finalUserService.registerUser(request);
 	}
   
-    @PostMapping("/checkaccount")
+    @PostMapping("/checkaccount")//註冊帳號檢查
     public ResponseEntity<Boolean> checkaccount(@RequestBody RegisterRequest request) {
         return finalUserService.checkaccount(request);
     }
-    @PostMapping("/login")
+    @PostMapping("/login")//登入按鍵
 	public ResponseEntity<Map<String, Object>> loginUser(@RequestBody RegisterRequest request) {
     	return finalUserService.loginUser(request);
     }
-    @GetMapping("/checkaccount")
+    @GetMapping("/checkaccount")//註冊帳號檢查
     public ResponseEntity<Map<String, Object>> logincheck(@RequestParam String account){
     	return finalUserService.logincheck(account);
     }
