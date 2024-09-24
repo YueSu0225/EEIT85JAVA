@@ -1,0 +1,15 @@
+<!DOCTYPE heml>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	</head>
+	<body>
+		<h1 th:text="${companyName}">iSpan III Company</h1>
+		<hr />
+		RC003 Page
+		<hr />
+		<ul>
+			<li th:each="name:${names}" th:text="${name}"></li>
+		</ul>
+	</body>
+</html>
+
