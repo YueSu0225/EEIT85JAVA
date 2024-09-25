@@ -66,4 +66,15 @@ public class ViewController {
 		return "rc003";
 	}
 	
+	
+	
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
+	}
+	@RequestMapping("/main")
+	public String main() {
+		return "main";
+	}
+	
 }

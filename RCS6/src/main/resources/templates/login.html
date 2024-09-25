@@ -1,0 +1,24 @@
+<!DOCTYPE heml>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	</head>
+	<body>
+		<h1>Login Page</h1>	
+		<form th:action="@{/login}" method="post">
+			Account: <input name="username" id="username" /><br />
+			Password <input type="password" name="password" id="password" /> <br />
+			<input type="submit" value="Login" />
+			
+			<div th:if="${param.error}">
+				Login Failure
+			</div>
+			
+			<div th:if="${param.logout}">
+				Logout OK, re-login
+			</div>
+			
+		</form>
+
+	</body>
+</html>
+
